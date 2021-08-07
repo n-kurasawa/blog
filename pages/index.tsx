@@ -2,7 +2,7 @@ import Head from "next/head";
 import Layout from "../components/layout";
 import Container from "../components/container";
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <Layout>
       <Head>
@@ -17,4 +17,6 @@ export default function Home() {
       </Container>
     </Layout>
   );
-}
+};
+
+export default Home;
