@@ -1,22 +1,42 @@
 import Head from "next/head";
 import Layout from "../components/layout";
 import Container from "../components/container";
+import Intro from "../components/intro";
+import HeroPost from "../components/hero-post";
+import type Post from "../types/post";
+import { getAllPosts } from "../lib/api";
 
-const Home: React.FC = () => {
+type Props = {
+  allPosts: Post[];
+};
+
+const Index: React.FC<Props> = ({ allPosts }) => {
+  const heroPost = allPosts[0];
   return (
     <Layout>
       <Head>
-        <title>Blog</title>
+        <title>Title</title>
       </Head>
       <Container>
-        <section className="flex-col md:flex-row flex items-center md:justify-between mt-16 mb-16 md:mb-12">
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight md:pr-8">
-            Blog.
-          </h1>
-        </section>
+        <Intro />
+        {heroPost && (
+          <HeroPost
+            title={heroPost.title}
+            coverImage={heroPost.coverImage}
+            date={heroPost.date}
+            slug={heroPost.slug}
+          />
+        )}
       </Container>
     </Layout>
   );
 };
 
-export default Home;
+export default Index;
+
+export const getStaticProps = async () => {
+  const allPosts = getAllPosts(["title", "date", "slug", "coverImage"]);
+  return {
+    props: { allPosts },
+  };
+};
