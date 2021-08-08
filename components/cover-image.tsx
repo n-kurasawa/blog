@@ -10,16 +10,19 @@ type Props = {
 
 const CoverImage: React.FC<Props> = ({ title, src, slug }) => {
   const image = (
-    <Image
-      src={src}
-      alt={`Cover Image for ${title}`}
+    <div
       className={cn("shadow-small", {
         "hover:shadow-medium transition-shadow duration-200": slug,
       })}
-      width={"600"}
-      height={"300"}
-      layout={"responsive"}
-    />
+    >
+      <Image
+        src={src}
+        alt={`Cover Image for ${title}`}
+        width={"600"}
+        height={"300"}
+        layout={"responsive"}
+      />
+    </div>
   );
   return (
     <div className="sm:mx-0">
