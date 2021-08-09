@@ -3,6 +3,7 @@ import Layout from "../components/layout";
 import Container from "../components/container";
 import Intro from "../components/intro";
 import HeroPost from "../components/hero-post";
+import MorePost from "../components/more-post";
 import type Post from "../types/post";
 import { getAllPosts } from "../lib/api";
 
@@ -12,6 +13,7 @@ type Props = {
 
 const Index: React.FC<Props> = ({ allPosts }) => {
   const heroPost = allPosts[0];
+  const morePosts = allPosts.slice(1);
   return (
     <Layout>
       <Head>
@@ -27,6 +29,7 @@ const Index: React.FC<Props> = ({ allPosts }) => {
             slug={heroPost.slug}
           />
         )}
+        {morePosts.length > 0 && <MorePost posts={morePosts} />}
       </Container>
     </Layout>
   );
