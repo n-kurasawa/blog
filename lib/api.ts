@@ -1,47 +1,46 @@
 import fs from "fs";
 import { join } from "path";
 import matter from "gray-matter";
+import type PostType from "../types/post";
 
 const postsDirectory = join(process.cwd(), "_posts");
 
-export function getPostSlugs() {
-  return fs.readdirSync(postsDirectory);
+export function getAllPostSlugs(): string[] {
+  return fs
+    .readdirSync(postsDirectory)
+    .map((slug) => slug.replace(/\.md$/, ""));
 }
 
-export function getPostBySlug(slug: string, fields: string[] = []) {
-  const realSlug = slug.replace(/\.md$/, "");
-  const fullPath = join(postsDirectory, `${realSlug}.md`);
+function getBySlug(slug: string) {
+  const fullPath = join(postsDirectory, `${slug}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(fileContents);
-
-  type Items = {
-    [key: string]: string;
-  };
-
-  const items: Items = {};
-
-  // Ensure only the minimal needed data is exposed
-  fields.forEach((field) => {
-    if (field === "slug") {
-      items[field] = realSlug;
-    }
-    if (field === "content") {
-      items[field] = content;
-    }
-
-    if (data[field]) {
-      items[field] = data[field];
-    }
-  });
-
-  return items;
+  return matter(fileContents);
 }
 
-export function getAllPosts(fields: string[] = []) {
-  const slugs = getPostSlugs();
-  const posts = slugs
-    .map((slug) => getPostBySlug(slug, fields))
-    // sort posts by date in descending order
+export function getPostBySlug(slug: string): PostType {
+  const { data, content } = getBySlug(slug);
+
+  return {
+    title: data["title"],
+    date: data["date"],
+    slug: slug,
+    coverImage: data["coverImage"],
+    content: content,
+    ogImage: data["ogImage"],
+  };
+}
+
+export function getAllPosts(): PostType[] {
+  const slugs = getAllPostSlugs();
+  return slugs
+    .map((slug) => {
+      const { data } = getBySlug(slug);
+      return {
+        title: data["title"],
+        date: data["date"],
+        slug: slug,
+        coverImage: data["coverImage"],
+      } as PostType;
+    })
     .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
-  return posts;
 }

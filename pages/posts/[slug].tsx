@@ -1,3 +1,5 @@
+import type { GetStaticProps, GetStaticPaths } from "next";
+import { ParsedUrlQuery } from "querystring";
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import Container from "../../components/container";
@@ -5,7 +7,7 @@ import PostBody from "../../components/post-body";
 import Header from "../../components/header";
 import PostHeader from "../../components/post-header";
 import Layout from "../../components/layout";
-import { getPostBySlug, getAllPosts } from "../../lib/api";
+import { getPostBySlug, getAllPostSlugs } from "../../lib/api";
 import PostTitle from "../../components/post-title";
 import Head from "next/head";
 import markdownToHtml from "../../lib/markdownToHtml";
@@ -49,44 +51,35 @@ const Post: React.FC<Props> = ({ post }) => {
 
 export default Post;
 
-type Params = {
-  params: {
-    slug: string;
-  };
-};
+interface Params extends ParsedUrlQuery {
+  slug: string;
+}
 
-export async function getStaticProps({ params }: Params) {
-  const post = getPostBySlug(params.slug, [
-    "title",
-    "date",
-    "slug",
-    "content",
-    "ogImage",
-    "coverImage",
-  ]);
+export const getStaticProps: GetStaticProps<Props, Params> = async (
+  context
+) => {
+  const { slug } = context.params!;
+  const post = getPostBySlug(slug);
   const content = await markdownToHtml(post.content || "");
 
   return {
     props: {
-      post: {
-        ...post,
-        content,
-      },
+      post: { ...post, content },
     },
   };
-}
+};
 
-export async function getStaticPaths() {
-  const posts = getAllPosts(["slug"]);
+export const getStaticPaths: GetStaticPaths = () => {
+  const slugs = getAllPostSlugs();
 
   return {
-    paths: posts.map((post) => {
+    paths: slugs.map((slug) => {
       return {
         params: {
-          slug: post.slug,
+          slug,
         },
       };
     }),
     fallback: false,
   };
-}
+};

@@ -6,6 +6,7 @@ import HeroPost from "../components/hero-post";
 import MorePost from "../components/more-post";
 import type Post from "../types/post";
 import { getAllPosts } from "../lib/api";
+import type { GetStaticProps } from "next";
 
 type Props = {
   allPosts: Post[];
@@ -37,7 +38,7 @@ const Index: React.FC<Props> = ({ allPosts }) => {
 
 export default Index;
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const allPosts = getAllPosts(["title", "date", "slug", "coverImage"]);
   return {
     props: { allPosts },
