@@ -7,6 +7,7 @@ import MorePost from "../components/more-post";
 import type Post from "../types/post";
 import { getAllPosts } from "../lib/api";
 import type { GetStaticProps } from "next";
+import { TITLE } from "../lib/constants";
 
 type Props = {
   allPosts: Post[];
@@ -18,7 +19,7 @@ const Index: React.FC<Props> = ({ allPosts }) => {
   return (
     <Layout>
       <Head>
-        <title>Title</title>
+        <title>{TITLE}</title>
       </Head>
       <Container>
         <Intro />
