@@ -18,8 +18,8 @@ const CoverImage: React.FC<Props> = ({ title, src, slug }) => {
       <Image
         src={src}
         alt={`Cover Image for ${title}`}
-        width={"600"}
-        height={"300"}
+        width={"640"}
+        height={"360"}
         layout={"responsive"}
       />
     </div>
