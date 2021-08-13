@@ -34,6 +34,7 @@ const Post: React.FC<Props> = ({ post }) => {
               <Head>
                 <title>{post.title} | Title</title>
                 <meta property="og:image" content={post.ogImage.url} />
+                <meta name="twitter:card" content="summary"></meta>
               </Head>
               <PostHeader
                 title={post.title}
