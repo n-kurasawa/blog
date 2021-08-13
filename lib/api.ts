@@ -27,6 +27,7 @@ export function getPostBySlug(slug: string): PostType {
     coverImage: data["coverImage"],
     content: content,
     ogImage: data["ogImage"],
+    description: data["description"],
   };
 }
 

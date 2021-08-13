@@ -34,12 +34,12 @@ const Post: React.FC<Props> = ({ post }) => {
             <article className="mb-32">
               <Head>
                 <title>{post.title} | Title</title>
-                <meta name="description" content="普通のディスクリプション" />
-                <meta property="og:title" content={post.title} />
                 <meta
-                  property="og:description"
-                  content="OGPのディスクリプション"
+                  name="description"
+                  content="明るく楽しく元気よくなブログ"
                 />
+                <meta property="og:title" content={post.title} />
+                <meta property="og:description" content={post.description} />
                 <meta property="og:site_name" content={TITLE} />
                 <meta property="og:image" content={post.ogImage.url} />
                 <meta name="twitter:card" content="summary_large_image" />
