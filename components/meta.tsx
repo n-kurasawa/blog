@@ -5,9 +5,10 @@ type Props = {
   title: string;
   path: string;
   ogImage: string;
+  description: string;
 };
 
-const Meta: React.FC<Props> = ({ title, path, ogImage }) => {
+const Meta: React.FC<Props> = ({ title, path, ogImage, description }) => {
   return (
     <Head>
       <meta name="description" content="明るく楽しく元気よく、なブログ" />
@@ -16,6 +17,7 @@ const Meta: React.FC<Props> = ({ title, path, ogImage }) => {
       <meta property="og:url" content={`${SITE_URL}/${path}`} />
       <meta property="og:type" content="article" />
       <meta property="og:image" content={ogImage} />
+      <meta property="og:description" content={description} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@k_7016" />
       <meta property="fb:app_id" content="1415963142107393" />

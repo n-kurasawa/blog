@@ -42,6 +42,7 @@ const Post: React.FC<Props> = ({ post }) => {
                 title={post.title}
                 path={router.asPath}
                 ogImage={post.ogImage.url}
+                description={post.description}
               />
               <PostHeader
                 title={post.title}
