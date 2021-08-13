@@ -7,7 +7,6 @@ type PostType = {
     url: string;
   };
   content: string;
-  description: string;
 };
 
 export default PostType;

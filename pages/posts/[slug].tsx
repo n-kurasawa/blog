@@ -13,6 +13,7 @@ import Head from "next/head";
 import markdownToHtml from "../../lib/markdownToHtml";
 import PostType from "../../types/post";
 import { TITLE } from "../../lib/constants";
+import Meta from "../../components/meta";
 
 type Props = {
   post: PostType;
@@ -33,18 +34,15 @@ const Post: React.FC<Props> = ({ post }) => {
           <>
             <article className="mb-32">
               <Head>
-                <title>{post.title} | Title</title>
-                <meta
-                  name="description"
-                  content="明るく楽しく元気よくなブログ"
-                />
-                <meta property="og:title" content={post.title} />
-                <meta property="og:description" content={post.description} />
-                <meta property="og:site_name" content={TITLE} />
-                <meta property="og:image" content={post.ogImage.url} />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:site" content="@k_7016" />
+                <title>
+                  {post.title} | {TITLE}
+                </title>
               </Head>
+              <Meta
+                title={post.title}
+                path={router.asPath}
+                ogImage={post.ogImage.url}
+              />
               <PostHeader
                 title={post.title}
                 coverImage={post.coverImage}
