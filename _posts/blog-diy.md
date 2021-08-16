@@ -1,10 +1,10 @@
 ---
 title: '育休中にブログをDIYしました'
-coverImage: '/assets/blog/blog-diy/IMG_4519.JPG'
+coverImage: 'https://d27wvjt2jcypda.cloudfront.net/images/blog-diy/IMG_4519.JPG'
 date: '2021-08-14T08:35:07.322Z'
 description: '子育てに少しずつ慣れてきてちょっと時間も取れるようになったので手を動かしたくてブログ作りました。'
 ogImage:
-  url: 'https://www.k7016.tech/assets/blog/blog-diy/IMG_4519.JPG'
+  url: 'https://d27wvjt2jcypda.cloudfront.net/images/blog-diy/IMG_4519.JPG'
 ---
 
 6月16日に子供が生まれまして、それからもうすぐ2ヶ月。
