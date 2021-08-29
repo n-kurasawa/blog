@@ -7,13 +7,14 @@ import PostBody from "../../components/post-body";
 import Header from "../../components/header";
 import PostHeader from "../../components/post-header";
 import Layout from "../../components/layout";
-import { getPostBySlug, getAllPostSlugs } from "../../lib/api";
 import PostTitle from "../../components/post-title";
 import Head from "next/head";
 import markdownToHtml from "../../lib/markdownToHtml";
 import PostType from "../../types/post";
 import { TITLE } from "../../lib/constants";
 import Meta from "../../components/meta";
+import client from "../../lib/apollo-client";
+import { gql } from "@apollo/client";
 
 type Props = {
   post: PostType;
@@ -41,7 +42,7 @@ const Post: React.FC<Props> = ({ post }) => {
               <Meta
                 title={post.title}
                 path={router.asPath}
-                ogImage={post.ogImage.url}
+                ogImage={post.coverImage}
                 description={post.description}
               />
               <PostHeader
@@ -68,24 +69,47 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   context
 ) => {
   const { slug } = context.params!;
-  const post = getPostBySlug(slug);
-  const content = await markdownToHtml(post.content || "");
+  const { data } = await client.query({
+    query: gql`
+      query article {
+        article(slug: "${slug}") {
+          content {
+            body
+          }
+          title
+          date
+          slug
+          coverImage
+          description
+        }
+      }
+    `,
+  });
+  const content = await markdownToHtml(data.article.content.body || "");
 
   return {
     props: {
-      post: { ...post, content },
+      post: { ...data.article, content },
     },
   };
 };
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const slugs = getAllPostSlugs();
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await client.query({
+    query: gql`
+      query slugs {
+        articles {
+          slug
+        }
+      }
+    `,
+  });
 
   return {
-    paths: slugs.map((slug) => {
+    paths: data.articles.map((article: PostType) => {
       return {
         params: {
-          slug,
+          slug: article.slug,
         },
       };
     }),
