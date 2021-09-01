@@ -1,4 +1,4 @@
-type PostType = {
+export type PostDetail = {
   slug: string;
   title: string;
   date: string;
@@ -7,4 +7,9 @@ type PostType = {
   description: string;
 };
 
-export default PostType;
+export type PostIndex = {
+  slug: string;
+  title: string;
+  date: string;
+  coverImage: string;
+};

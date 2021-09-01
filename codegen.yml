@@ -1,0 +1,12 @@
+overwrite: true
+schema: "http://192.168.0.110/api/query"
+documents: "graphql/**/*.graphql"
+generates:
+  lib/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-graphql-request"
+  graphql/graphql.schema.json:
+    plugins:
+      - "introspection"

@@ -1,8 +1,8 @@
 import PostPreview from "./post-preview";
-import Post from "../types/post";
+import { PostIndex } from "../types/post";
 
 type Props = {
-  posts: Post[];
+  posts: PostIndex[];
 };
 
 const MorePost: React.FC<Props> = ({ posts }) => {

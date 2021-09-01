@@ -10,14 +10,13 @@ import Layout from "../../components/layout";
 import PostTitle from "../../components/post-title";
 import Head from "next/head";
 import markdownToHtml from "../../lib/markdownToHtml";
-import PostType from "../../types/post";
+import type { PostDetail } from "../../types/post";
 import { TITLE } from "../../lib/constants";
 import Meta from "../../components/meta";
-import client from "../../lib/graphql-client";
-import { gql } from "graphql-request";
+import { sdk } from "../../lib/graphql-client";
 
 type Props = {
-  post: PostType;
+  post: PostDetail;
 };
 
 const Post: React.FC<Props> = ({ post }) => {
@@ -65,48 +64,32 @@ interface Params extends ParsedUrlQuery {
   slug: string;
 }
 
-const postQuery = gql`
-  query post($slug: String!) {
-    post(slug: $slug) {
-      content {
-        body
-      }
-      title
-      date
-      slug
-      coverImage
-      description
-    }
-  }
-`;
-
 export const getStaticProps: GetStaticProps<Props, Params> = async (
   context
 ) => {
   const { slug } = context.params!;
-  const { post } = await client.request(postQuery, { slug });
-  const content = await markdownToHtml(post.content.body || "");
+  const { post } = await sdk.post({ slug });
+  const content = await markdownToHtml(post!.content.body || "");
 
   return {
     props: {
-      post: { ...post, content },
+      post: {
+        slug: post!.slug,
+        title: post!.title,
+        date: post!.date,
+        coverImage: post!.coverImage,
+        content: content,
+        description: post!.description,
+      },
     },
   };
 };
 
-const slugsQuery = gql`
-  query slugs {
-    posts {
-      slug
-    }
-  }
-`;
-
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { posts } = await client.request(slugsQuery);
+  const { posts } = await sdk.slugs();
 
   return {
-    paths: posts.map((post: PostType) => {
+    paths: posts.map((post) => {
       return {
         params: {
           slug: post.slug,

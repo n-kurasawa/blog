@@ -4,14 +4,13 @@ import Container from "../components/container";
 import Intro from "../components/intro";
 import HeroPost from "../components/hero-post";
 import MorePost from "../components/more-post";
-import type PostType from "../types/post";
+import type { PostIndex } from "../types/post";
 import type { GetStaticProps } from "next";
 import { TITLE } from "../lib/constants";
-import { gql } from "graphql-request";
-import client from "../lib/graphql-client";
+import { sdk } from "../lib/graphql-client";
 
 type Props = {
-  allPosts: PostType[];
+  allPosts: PostIndex[];
 };
 
 const Index: React.FC<Props> = ({ allPosts }) => {
@@ -40,20 +39,16 @@ const Index: React.FC<Props> = ({ allPosts }) => {
 
 export default Index;
 
-const query = gql`
-  query posts {
-    posts {
-      title
-      date
-      slug
-      coverImage
-    }
-  }
-`;
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const { posts } = await sdk.posts();
+  const allPosts = posts.map((post) => ({
+    title: post.title,
+    date: post.date,
+    slug: post.slug,
+    coverImage: post.coverImage,
+  }));
 
-export const getStaticProps: GetStaticProps = async () => {
-  const { posts } = await client.request(query);
   return {
-    props: { allPosts: posts },
+    props: { allPosts },
   };
 };
