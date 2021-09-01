@@ -43,8 +43,8 @@ export default Index;
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await client.query({
     query: gql`
-      query articles {
-        articles {
+      query posts {
+        posts {
           title
           date
           slug
@@ -54,6 +54,6 @@ export const getStaticProps: GetStaticProps = async () => {
     `,
   });
   return {
-    props: { allPosts: data.articles },
+    props: { allPosts: data.posts },
   };
 };

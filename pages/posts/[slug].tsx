@@ -71,8 +71,8 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   const { slug } = context.params!;
   const { data } = await client.query({
     query: gql`
-      query article {
-        article(slug: "${slug}") {
+      query post {
+        post(slug: "${slug}") {
           content {
             body
           }
@@ -85,11 +85,11 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
       }
     `,
   });
-  const content = await markdownToHtml(data.article.content.body || "");
+  const content = await markdownToHtml(data.post.content.body || "");
 
   return {
     props: {
-      post: { ...data.article, content },
+      post: { ...data.post, content },
     },
   };
 };
@@ -98,7 +98,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const { data } = await client.query({
     query: gql`
       query slugs {
-        articles {
+        posts {
           slug
         }
       }
@@ -106,10 +106,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
   });
 
   return {
-    paths: data.articles.map((article: PostType) => {
+    paths: data.posts.map((post: PostType) => {
       return {
         params: {
-          slug: article.slug,
+          slug: post.slug,
         },
       };
     }),
