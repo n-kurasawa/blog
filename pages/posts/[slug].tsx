@@ -13,8 +13,8 @@ import markdownToHtml from "../../lib/markdownToHtml";
 import PostType from "../../types/post";
 import { TITLE } from "../../lib/constants";
 import Meta from "../../components/meta";
-import client from "../../lib/apollo-client";
-import { gql } from "@apollo/client";
+import client from "../../lib/graphql-client";
+import { gql } from "graphql-request";
 
 type Props = {
   post: PostType;
@@ -65,48 +65,48 @@ interface Params extends ParsedUrlQuery {
   slug: string;
 }
 
+const postQuery = gql`
+  query post($slug: String!) {
+    post(slug: $slug) {
+      content {
+        body
+      }
+      title
+      date
+      slug
+      coverImage
+      description
+    }
+  }
+`;
+
 export const getStaticProps: GetStaticProps<Props, Params> = async (
   context
 ) => {
   const { slug } = context.params!;
-  const { data } = await client.query({
-    query: gql`
-      query post {
-        post(slug: "${slug}") {
-          content {
-            body
-          }
-          title
-          date
-          slug
-          coverImage
-          description
-        }
-      }
-    `,
-  });
-  const content = await markdownToHtml(data.post.content.body || "");
+  const { post } = await client.request(postQuery, { slug });
+  const content = await markdownToHtml(post.content.body || "");
 
   return {
     props: {
-      post: { ...data.post, content },
+      post: { ...post, content },
     },
   };
 };
 
+const slugsQuery = gql`
+  query slugs {
+    posts {
+      slug
+    }
+  }
+`;
+
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await client.query({
-    query: gql`
-      query slugs {
-        posts {
-          slug
-        }
-      }
-    `,
-  });
+  const { posts } = await client.request(slugsQuery);
 
   return {
-    paths: data.posts.map((post: PostType) => {
+    paths: posts.map((post: PostType) => {
       return {
         params: {
           slug: post.slug,

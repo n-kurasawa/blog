@@ -7,8 +7,8 @@ import MorePost from "../components/more-post";
 import type PostType from "../types/post";
 import type { GetStaticProps } from "next";
 import { TITLE } from "../lib/constants";
-import { gql } from "@apollo/client";
-import client from "../lib/apollo-client";
+import { gql } from "graphql-request";
+import client from "../lib/graphql-client";
 
 type Props = {
   allPosts: PostType[];
@@ -40,20 +40,20 @@ const Index: React.FC<Props> = ({ allPosts }) => {
 
 export default Index;
 
+const query = gql`
+  query posts {
+    posts {
+      title
+      date
+      slug
+      coverImage
+    }
+  }
+`;
+
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await client.query({
-    query: gql`
-      query posts {
-        posts {
-          title
-          date
-          slug
-          coverImage
-        }
-      }
-    `,
-  });
+  const { posts } = await client.request(query);
   return {
-    props: { allPosts: data.posts },
+    props: { allPosts: posts },
   };
 };
