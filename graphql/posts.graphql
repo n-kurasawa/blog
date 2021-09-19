@@ -1,27 +1,27 @@
 query posts {
-    posts {
-        title
-        date
-        slug
-        coverImage
-    }
+  posts {
+    title
+    publishedAt
+    slug
+    coverImage
+  }
 }
 
 query post($slug: String!) {
-    post(slug: $slug) {
-        content {
-            body
-        }
-        title
-        date
-        slug
-        coverImage
-        description
+  post(slug: $slug) {
+    content {
+        body
     }
+    title
+    publishedAt
+    slug
+    coverImage
+    description
+}
 }
 
 query slugs {
-    posts {
-        slug
-    }
+  posts {
+    slug
+  }
 }

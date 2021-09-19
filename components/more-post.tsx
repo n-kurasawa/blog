@@ -14,7 +14,7 @@ const MorePost: React.FC<Props> = ({ posts }) => {
             key={post.slug}
             title={post.title}
             coverImage={post.coverImage}
-            date={post.date}
+            date={post.publishedAt}
             slug={post.slug}
           />
         ))}

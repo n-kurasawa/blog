@@ -36,6 +36,7 @@ export type NewPost = {
   coverImage: Scalars['String'];
   content: Scalars['String'];
   description: Scalars['String'];
+  publishedAt: Scalars['String'];
 };
 
 export type Post = {
@@ -43,10 +44,10 @@ export type Post = {
   id: Scalars['ID'];
   slug: Scalars['String'];
   title: Scalars['String'];
-  date: Scalars['String'];
   coverImage: Scalars['String'];
   content: Content;
   description: Scalars['String'];
+  publishedAt: Scalars['String'];
 };
 
 export type Query = {
@@ -63,14 +64,14 @@ export type QueryPostArgs = {
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, date: string, slug: string, coverImage: string }> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, publishedAt: string, slug: string, coverImage: string }> };
 
 export type PostQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: Maybe<{ __typename?: 'Post', title: string, date: string, slug: string, coverImage: string, description: string, content: { __typename?: 'Content', body: string } }> };
+export type PostQuery = { __typename?: 'Query', post?: Maybe<{ __typename?: 'Post', title: string, publishedAt: string, slug: string, coverImage: string, description: string, content: { __typename?: 'Content', body: string } }> };
 
 export type SlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -82,7 +83,7 @@ export const PostsDocument = gql`
     query posts {
   posts {
     title
-    date
+    publishedAt
     slug
     coverImage
   }
@@ -95,7 +96,7 @@ export const PostDocument = gql`
       body
     }
     title
-    date
+    publishedAt
     slug
     coverImage
     description
