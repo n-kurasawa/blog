@@ -14,6 +14,7 @@ import type { PostDetail } from "../../types/post";
 import { TITLE } from "../../lib/constants";
 import Meta from "../../components/meta";
 import { sdk } from "../../lib/graphql-client";
+import { published } from "../../lib/util";
 
 type Props = {
   post: PostDetail;
@@ -22,6 +23,9 @@ type Props = {
 const Post: React.FC<Props> = ({ post }) => {
   const router = useRouter();
   if (!router.isFallback && !post?.slug) {
+    return <ErrorPage statusCode={404} />;
+  }
+  if (!published(post.publishedAt)) {
     return <ErrorPage statusCode={404} />;
   }
   return (
@@ -47,7 +51,7 @@ const Post: React.FC<Props> = ({ post }) => {
               <PostHeader
                 title={post.title}
                 coverImage={post.coverImage}
-                date={post.date}
+                date={post.publishedAt}
               />
               <PostBody content={post.content} />
             </article>
@@ -76,7 +80,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
       post: {
         slug: post!.slug,
         title: post!.title,
-        date: post!.date,
+        publishedAt: post!.publishedAt,
         coverImage: post!.coverImage,
         content: content,
         description: post!.description,

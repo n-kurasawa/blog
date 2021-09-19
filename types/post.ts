@@ -1,7 +1,7 @@
 export type PostDetail = {
   slug: string;
   title: string;
-  date: string;
+  publishedAt: string;
   coverImage: string;
   content: string;
   description: string;
@@ -10,6 +10,6 @@ export type PostDetail = {
 export type PostIndex = {
   slug: string;
   title: string;
-  date: string;
+  publishedAt: string;
   coverImage: string;
 };

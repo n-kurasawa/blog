@@ -8,6 +8,7 @@ import type { PostIndex } from "../types/post";
 import type { GetStaticProps } from "next";
 import { TITLE } from "../lib/constants";
 import { sdk } from "../lib/graphql-client";
+import { published } from "../lib/util";
 
 type Props = {
   allPosts: PostIndex[];
@@ -27,7 +28,7 @@ const Index: React.FC<Props> = ({ allPosts }) => {
           <HeroPost
             title={heroPost.title}
             coverImage={heroPost.coverImage}
-            date={heroPost.date}
+            date={heroPost.publishedAt}
             slug={heroPost.slug}
           />
         )}
@@ -41,12 +42,16 @@ export default Index;
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const { posts } = await sdk.posts();
-  const allPosts = posts.map((post) => ({
-    title: post.title,
-    date: post.date,
-    slug: post.slug,
-    coverImage: post.coverImage,
-  }));
+  const allPosts = posts
+    .filter((post) => {
+      return published(post.publishedAt);
+    })
+    .map((post) => ({
+      title: post.title,
+      publishedAt: post.publishedAt,
+      slug: post.slug,
+      coverImage: post.coverImage,
+    }));
 
   return {
     props: { allPosts },
