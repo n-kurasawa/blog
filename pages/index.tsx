@@ -51,7 +51,14 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       publishedAt: post.publishedAt,
       slug: post.slug,
       coverImage: post.coverImage,
-    }));
+    }))
+    .sort((a, b) => {
+      if (a.publishedAt < b.publishedAt) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
 
   return {
     props: { allPosts },
