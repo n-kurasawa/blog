@@ -1,14 +1,17 @@
 import Head from "next/head";
-import Layout from "../components/layout";
+import React from "react";
+
 import Container from "../components/container";
-import Intro from "../components/intro";
 import HeroPost from "../components/hero-post";
+import Intro from "../components/intro";
+import Layout from "../components/layout";
 import MorePost from "../components/more-post";
-import type { PostIndex } from "../types/post";
-import type { GetStaticProps } from "next";
 import { TITLE } from "../lib/constants";
 import { sdk } from "../lib/graphql-client";
 import { published } from "../lib/util";
+
+import type { PostIndex } from "../types/post";
+import type { GetStaticProps } from "next";
 
 type Props = {
   allPosts: PostIndex[];

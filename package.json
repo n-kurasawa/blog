@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --fix",
     "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
@@ -32,10 +32,12 @@
     "@graphql-codegen/typescript-operations": "2.1.2",
     "@types/react": "17.0.15",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
+    "@typescript-eslint/parser": "^4.33.0",
     "autoprefixer": "^10.3.1",
     "eslint": "7.32.0",
     "eslint-config-next": "11.0.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
     "postcss": "^8.3.6",
     "prettier": "2.3.2",
     "tailwindcss": "^2.2.7",

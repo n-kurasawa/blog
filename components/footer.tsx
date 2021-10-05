@@ -1,6 +1,7 @@
-import Container from "./container";
-import { TITLE } from "../lib/constants";
 import Link from "next/link";
+
+import { TITLE } from "../lib/constants";
+import Container from "./container";
 
 const Footer: React.FC = () => {
   return (

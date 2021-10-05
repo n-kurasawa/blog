@@ -1,4 +1,5 @@
 import Head from "next/head";
+
 import { SITE_URL, TITLE } from "../lib/constants";
 
 type Props = {

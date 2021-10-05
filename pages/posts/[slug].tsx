@@ -1,20 +1,23 @@
-import type { GetStaticProps, GetStaticPaths } from "next";
 import { ParsedUrlQuery } from "querystring";
-import { useRouter } from "next/router";
+
 import ErrorPage from "next/error";
-import Container from "../../components/container";
-import PostBody from "../../components/post-body";
-import Header from "../../components/header";
-import PostHeader from "../../components/post-header";
-import Layout from "../../components/layout";
-import PostTitle from "../../components/post-title";
 import Head from "next/head";
-import markdownToHtml from "../../lib/markdownToHtml";
-import type { PostDetail } from "../../types/post";
-import { TITLE } from "../../lib/constants";
+import { useRouter } from "next/router";
+
+import Container from "../../components/container";
+import Header from "../../components/header";
+import Layout from "../../components/layout";
 import Meta from "../../components/meta";
+import PostBody from "../../components/post-body";
+import PostHeader from "../../components/post-header";
+import PostTitle from "../../components/post-title";
+import { TITLE } from "../../lib/constants";
 import { sdk } from "../../lib/graphql-client";
+import markdownToHtml from "../../lib/markdownToHtml";
 import { published } from "../../lib/util";
+
+import type { PostDetail } from "../../types/post";
+import type { GetStaticProps, GetStaticPaths } from "next";
 
 type Props = {
   post: PostDetail;
