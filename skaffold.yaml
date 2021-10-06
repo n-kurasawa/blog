@@ -4,11 +4,11 @@ metadata:
   name: blog
 build:
   artifacts:
-  - image: naohirokurasawa/blog
-    docker:
-      dockerfile: Dockerfile
+    - image: naohirokurasawa/blog
+      custom:
+        buildCommand: docker build --build-arg NPM_TOKEN=${NPM_TOKEN} .
 deploy:
   kubectl:
     manifests:
-    - k8s/development.yaml
-    - k8s/service.yaml
+      - k8s/development.yaml
+      - k8s/service.yaml
