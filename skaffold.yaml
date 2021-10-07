@@ -5,8 +5,10 @@ metadata:
 build:
   artifacts:
     - image: naohirokurasawa/blog
-      custom:
-        buildCommand: docker build --build-arg NPM_TOKEN=${NPM_TOKEN} .
+      docker:
+        dockerfile: Dockerfile
+        buildArgs:
+          NPM_TOKEN: "{{.NPM_TOKEN}}"
 deploy:
   kubectl:
     manifests:
